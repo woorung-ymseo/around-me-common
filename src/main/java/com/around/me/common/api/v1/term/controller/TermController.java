@@ -52,7 +52,7 @@ public class TermController {
     
     /**
      * 약관 수정
-     * @return Response<Term>
+     * @return Response<Long>
      */
     @ApiOperation(value = "약관 수정")
     @PatchMapping(value = "/term/{termNo}")
@@ -68,7 +68,7 @@ public class TermController {
     
     /**
      * 약관 삭제
-     * @return Response<Term>
+     * @return Response<Long>
      */
     @ApiOperation(value = "약관 삭제")
     @DeleteMapping(value = "/term/{termNo}")

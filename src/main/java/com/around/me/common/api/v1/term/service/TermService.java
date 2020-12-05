@@ -22,6 +22,7 @@ public class TermService {
 
     /**
      * 약관 생성
+     * @param PostTermParamDTO dto
      * @return Term
      */
     @Transactional
@@ -36,8 +37,9 @@ public class TermService {
     }
     
     /**
-     * 약관 수정 
-     * @return integer
+     * 약관 수정
+     * @param long termNo, PatchTermParamDTO dto
+     * @return Term
      */
     @Transactional
     public Term patchTerm(long termNo, PatchTermParamDTO dto) {
@@ -52,7 +54,8 @@ public class TermService {
     
     /**
      * 약관 삭제 
-     * @return integer
+     * @param long termNo
+     * @return int
      */
     @Transactional
     public int deleteTerm(long termNo) {
