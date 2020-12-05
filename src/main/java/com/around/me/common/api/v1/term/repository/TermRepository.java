@@ -1,7 +1,8 @@
 package com.around.me.common.api.v1.term.repository;
 
+import com.around.me.common.api.v1.term.dto.PatchTermParamDTO;
+import com.around.me.common.api.v1.term.dto.PostTermParamDTO;
 import com.around.me.common.core.domain.Term;
-import com.around.me.common.core.dto.TermDTO;
 import com.around.me.common.core.enums.common.YnEnum;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,18 +13,12 @@ import java.util.List;
 public interface TermRepository extends JpaRepository<Term, Long> {
 
 	/**
-	 * 약관 삽입
+	 * 약관 삽입, 수정
 	 * @param TermDTO.PostTermDTO termDTO
+	 * @return 
 	 * @return Optional<Integer>
 	 */
-	Optional<Integer> save(TermDTO.PostTermDTO termDTO);
-	
-	/**
-	 * 약관 수정
-	 * @param TermDTO.PatchTermDTO termDTO
-	 * @return Optional<Integer>
-	 */
-	Optional<Integer> save(TermDTO.PatchTermDTO termDTO);
+	Term save(Term term);
 	
 	/**
 	 * 약관 삭제

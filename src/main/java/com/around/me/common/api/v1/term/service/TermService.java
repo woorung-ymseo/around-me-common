@@ -6,9 +6,10 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.around.me.common.api.v1.term.dto.PatchTermParamDTO;
+import com.around.me.common.api.v1.term.dto.PostTermParamDTO;
 import com.around.me.common.api.v1.term.repository.TermRepository;
 import com.around.me.common.core.domain.Term;
-import com.around.me.common.core.dto.TermDTO;
 import com.around.me.common.core.enums.common.YnEnum;
 
 import lombok.RequiredArgsConstructor;
@@ -21,14 +22,17 @@ public class TermService {
 
     /**
      * 약관 생성
-     * @return integer
+     * @return Term
      */
     @Transactional
-    public Integer postTermInfo(TermDTO.PostTermDTO termDTO) {
+    public Term postTerm(PostTermParamDTO dto) {
     	
-    	Optional<Integer> result = termRepository.save(termDTO);
+    	Term term = new Term();
+    	term.create(dto);
+    	
+    	Term result = termRepository.save(term);
 
-        return result.orElse(null);
+        return result;
     }
     
     /**
@@ -36,11 +40,14 @@ public class TermService {
      * @return integer
      */
     @Transactional
-    public Integer patchTermInfo(long termNo, TermDTO.PatchTermDTO termDTO) {
+    public Term patchTerm(long termNo, PatchTermParamDTO dto) {
     		
-    	Optional<Integer> result = termRepository.save(termDTO);
+    	Optional<Term> term = termRepository.findByTermNo(termNo);
+    	term.get().update(dto);
 
-        return result.orElse(null);
+    	Term result = termRepository.save(term.get());
+
+    	return result;
     }
     
     /**
@@ -48,18 +55,19 @@ public class TermService {
      * @return integer
      */
     @Transactional
-    public Integer deleteTermInfo(long termNo) {
+    public int deleteTerm(long termNo) {
     	
     	Optional<Integer> result = termRepository.deleteById(termNo);
 
-        return result.orElse(null);
+        return result.get();
     }
     
     /**
      * 약관 리스트 조회
      * @return List<Term>
      */
-    public List<Term> getTermInfo() {
+    public List<Term> getTerms() {
+    	
     	Optional<List<Term>> terms = termRepository.findAllByDisplayYn(YnEnum.Y);
 
         return terms.orElse(null);
@@ -70,7 +78,8 @@ public class TermService {
      * @param long termNo
      * @return Term
      */
-    public Term getTermContent(long termNo) {
+    public Term getTerm(long termNo) {
+    	
         Optional<Term> term = termRepository.findByTermNo(termNo);
 
         return term.orElse(null);

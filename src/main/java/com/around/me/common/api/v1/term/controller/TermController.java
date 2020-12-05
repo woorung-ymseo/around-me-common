@@ -1,10 +1,11 @@
 package com.around.me.common.api.v1.term.controller;
 
+import com.around.me.common.api.v1.term.dto.PatchTermParamDTO;
+import com.around.me.common.api.v1.term.dto.PostTermParamDTO;
 import com.around.me.common.api.v1.term.service.TermService;
 import com.around.me.common.core.annoitation.version.RestMappingV1;
 import com.around.me.common.core.domain.Term;
 import com.around.me.common.core.dto.Response;
-import com.around.me.common.core.dto.TermDTO;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,11 +39,15 @@ public class TermController {
      */
     @ApiOperation(value = "약관 생성")
     @PostMapping(value = "/term")
-    Response<Term> postTermInfoTest(@RequestBody TermDTO.PostTermDTO dto) {
+    Response<Term> postTerm(@RequestBody PostTermParamDTO dto) {
 
-        termService.postTermInfo(dto);
+        Term result = termService.postTerm(dto);
 
-        return Response.ok(null);
+        if(result==null) {
+        	return Response.badRequest(null);
+    	}else {
+    		return Response.ok(result);
+    	}
     }
     
     /**
@@ -51,11 +56,14 @@ public class TermController {
      */
     @ApiOperation(value = "약관 수정")
     @PatchMapping(value = "/term/{termNo}")
-    Response<Term> patchTermInfoTest(@ApiParam(value = "약관 번호", required = true, example = "1") @PathVariable long termNo, @RequestBody TermDTO.PatchTermDTO dto) {
-
-		termService.patchTermInfo(termNo, dto);
-
-        return Response.ok(null);
+    Response<Long> patchTerm(@ApiParam(value = "약관 번호", required = true, example = "1") @PathVariable long termNo, @RequestBody PatchTermParamDTO dto) {
+    	
+    	Term result = termService.patchTerm(termNo, dto);
+    	if(result==null) {
+    		return Response.badRequest(null);
+    	}else {
+    		return Response.ok(result.getTermNo());
+    	}
     }
     
     /**
@@ -64,11 +72,14 @@ public class TermController {
      */
     @ApiOperation(value = "약관 삭제")
     @DeleteMapping(value = "/term/{termNo}")
-    Response<Term> deleteTermInfoTest(@ApiParam(value = "약관 번호", required = true, example = "1") @PathVariable long termNo) {
+    Response<Long> deleteTerm(@ApiParam(value = "약관 번호", required = true, example = "1") @PathVariable long termNo) {
 
-        termService.deleteTermInfo(termNo);
-
-        return Response.ok(null);
+    	int result = termService.deleteTerm(termNo);
+    	if(result>0) {
+    		return Response.ok(termNo);
+    	}else {
+    		return Response.badRequest(termNo);
+    	}
     }
     
     /**
@@ -77,9 +88,9 @@ public class TermController {
      */
     @ApiOperation(value = "약관 리스트 조회")
     @GetMapping(value = "/terms")
-    Response<List<Term>> termInfoTest() {
+    Response<List<Term>> getTerms() {
 
-        List<Term> term = termService.getTermInfo();
+        List<Term> term = termService.getTerms();
 
         return Response.ok(term);
     }
@@ -91,9 +102,9 @@ public class TermController {
      */
     @ApiOperation(value = "약관 내용 조회")
     @GetMapping(value = "/term/{termNo}")
-    Response<Term> termContentTest(@ApiParam(value = "약관 번호", required = true, example = "1") @PathVariable long termNo) {
+    Response<Term> getTerm(@ApiParam(value = "약관 번호", required = true, example = "1") @PathVariable long termNo) {
 
-        Term term = termService.getTermContent(termNo);
+        Term term = termService.getTerm(termNo);
 
         return Response.ok(term);
     }

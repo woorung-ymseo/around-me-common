@@ -1,5 +1,7 @@
 package com.around.me.common.core.domain;
 
+import com.around.me.common.api.v1.term.dto.PatchTermParamDTO;
+import com.around.me.common.api.v1.term.dto.PostTermParamDTO;
 import com.around.me.common.core.enums.common.YnEnum;
 import com.around.me.common.core.enums.term.TermTypeEnum;
 
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
 public class Term {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(value="약관번호")
     @Setter
     private long termNo;
@@ -60,4 +62,23 @@ public class Term {
     @ApiModelProperty(value="수정자")
     private Long modUserNo;
 
+	public void create(PostTermParamDTO dto) {
+		this.termName = dto.getTermName();
+	    this.termType = dto.getTermType();
+	    this.termContent = dto.getTermContent();
+	    this.displayYn = dto.getDisplayYn();
+	    this.requiredAgreeYn = dto.getRequiredAgreeYn();
+	    this.displayDate = dto.getDisplayDate();
+	    this.useYn = dto.getUseYn();
+	}
+	
+	public void update(PatchTermParamDTO dto) {
+		this.termName = dto.getTermName();
+	    this.termType = dto.getTermType();
+	    this.termContent = dto.getTermContent();
+	    this.displayYn = dto.getDisplayYn();
+	    this.requiredAgreeYn = dto.getRequiredAgreeYn();
+	    this.displayDate = dto.getDisplayDate();
+	    this.useYn = dto.getUseYn();
+	}
 }
