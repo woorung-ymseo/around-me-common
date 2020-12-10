@@ -1,5 +1,5 @@
 package com.around.me.common.core.enums.code;
 
-public enum codeTypeEnum {
-	Y,N; //수정 
+public enum CodeTypeEnum {
+	ga,na,da; //수정 
 }
