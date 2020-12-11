@@ -29,7 +29,7 @@ public class TermService {
     public Term postTerm(PostTermParamDTO dto) {
     	
     	Term term = new Term();
-    	term.create(dto);
+    	term.post(dto);
     	
     	Term result = termRepository.save(term);
 
@@ -60,7 +60,7 @@ public class TermService {
     @Transactional
     public int deleteTerm(long termNo) {
     	
-    	Optional<Integer> result = termRepository.deleteById(termNo);
+    	Optional<Integer> result = termRepository.deleteByTermNo(termNo);
 
         return result.get();
     }

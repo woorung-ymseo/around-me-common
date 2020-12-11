@@ -35,6 +35,7 @@ public class TermController {
 
     /**
      * 약관 생성
+     * @param PostTermParamDTO dto
      * @return Response<Term>
      */
     @ApiOperation(value = "약관 생성")
@@ -52,6 +53,7 @@ public class TermController {
     
     /**
      * 약관 수정
+     * @param long termNo, PatchTermParamDTO dto
      * @return Response<Long>
      */
     @ApiOperation(value = "약관 수정")
@@ -68,6 +70,7 @@ public class TermController {
     
     /**
      * 약관 삭제
+     * @param long termNo
      * @return Response<Long>
      */
     @ApiOperation(value = "약관 삭제")
@@ -97,7 +100,7 @@ public class TermController {
     
     /**
      * 약관 내용 조회
-     * @param termNo
+     * @param long termNo
      * @return Response<Term>
      */
     @ApiOperation(value = "약관 내용 조회")

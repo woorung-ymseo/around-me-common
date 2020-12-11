@@ -22,7 +22,7 @@ public interface TermRepository extends JpaRepository<Term, Long> {
 	 * @param long termNo
 	 * @return Optional<Integer>
 	 */
-	Optional<Integer> deleteById(long termNo);
+	Optional<Integer> deleteByTermNo(long termNo);
 	
 	/**
 	 * 약관 리스트 조회

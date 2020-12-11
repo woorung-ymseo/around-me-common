@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.around.me.common.core.enums.code.GroupCodeTypeEnum;
+import com.around.me.common.core.enums.code.GroupcodeTypeEnum;
 import com.around.me.common.core.enums.common.YnEnum;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -26,7 +26,7 @@ public class Groupcode {
 	
 	@ApiModelProperty(value="공통그룹코드")
 	@Enumerated(EnumType.STRING)
-	private GroupCodeTypeEnum commonGroupCode;
+	private GroupcodeTypeEnum commonGroupCode;
 	
 	@ApiModelProperty(value="공통그룹코드명")
 	private String commonGroupName;
