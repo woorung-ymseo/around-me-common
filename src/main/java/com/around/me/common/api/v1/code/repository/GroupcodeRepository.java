@@ -9,7 +9,13 @@ import java.util.Optional;
 import java.util.List;
 
 public interface GroupcodeRepository extends JpaRepository<Groupcode, Long> {
-
+	/**
+	 * 공통그룹코드 조회
+	 * @param long groupcodeNo
+	 * @return Optional<Groupcode>
+	 */
+	Optional<Groupcode> findByCommonGroupCodeNo(long groupcodeNo);
+	
 	/**
 	 * 공통그룹코드 리스트 조회
 	 * @param YnEnum useYn

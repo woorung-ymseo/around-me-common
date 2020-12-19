@@ -55,14 +55,17 @@ public class TermService {
     /**
      * 약관 삭제 
      * @param long termNo
-     * @return int
+     * @return Term
      */
     @Transactional
-    public int deleteTerm(long termNo) {
+    public Term deleteTerm(long termNo) {
     	
-    	Optional<Integer> result = termRepository.deleteByTermNo(termNo);
+    	Optional<Term> term = termRepository.findByTermNo(termNo);
+    	term.get().delete();
 
-        return result.get();
+    	Term result = termRepository.save(term.get());
+
+        return result;
     }
     
     /**
@@ -71,7 +74,7 @@ public class TermService {
      */
     public List<Term> getTerms() {
     	
-    	Optional<List<Term>> terms = termRepository.findAllByDisplayYn(YnEnum.Y);
+    	Optional<List<Term>> terms = termRepository.findAllByDisplayYnAndUseYn(YnEnum.Y,YnEnum.Y);
 
         return terms.orElse(null);
     }

@@ -77,11 +77,11 @@ public class TermController {
     @DeleteMapping(value = "/term/{termNo}")
     Response<Long> deleteTerm(@ApiParam(value = "약관 번호", required = true, example = "1") @PathVariable long termNo) {
 
-    	int result = termService.deleteTerm(termNo);
-    	if(result>0) {
-    		return Response.ok(termNo);
+    	Term result = termService.deleteTerm(termNo);
+    	if(result==null) {
+    		return Response.badRequest(null);
     	}else {
-    		return Response.badRequest(termNo);
+    		return Response.ok(result.getTermNo());
     	}
     }
     

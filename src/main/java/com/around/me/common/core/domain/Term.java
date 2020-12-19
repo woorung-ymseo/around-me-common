@@ -11,12 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.around.me.common.api.v1.term.dto.PatchTermParamDTO;
 import com.around.me.common.api.v1.term.dto.PostTermParamDTO;
 import com.around.me.common.core.enums.common.YnEnum;
-import com.around.me.common.core.enums.term.TermTypeEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -38,8 +36,7 @@ public class Term {
     private String termName;
 
     @ApiModelProperty(value="약관 타입")
-    @Enumerated(EnumType.STRING)
-    private TermTypeEnum termType;
+    private String termType;
 
     @ApiModelProperty(value="약관내용")
     private String termContent;
@@ -53,6 +50,7 @@ public class Term {
     private YnEnum requiredAgreeYn;
 
     @ApiModelProperty(value="전시일자")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMdd", timezone = "Asia/Seoul") 
     private LocalDate displayDate;
 
     @ApiModelProperty(value="사용여부")
@@ -60,9 +58,11 @@ public class Term {
     private YnEnum useYn;
 
     @ApiModelProperty(value="등록일시")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul") 
     private LocalDateTime regDatetime;
 
     @ApiModelProperty(value="수정일시")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul") 
     private LocalDateTime modDatetime;
 
     @ApiModelProperty(value="등록자")
@@ -84,28 +84,32 @@ public class Term {
 	}
 	
 	public void update(PatchTermParamDTO dto) {
-		if(StringUtils.isNotBlank(dto.getTermName())){
+		if(this.termName != dto.getTermName()){
 			this.termName = dto.getTermName();
 		}
-		if(dto.getTermType()!=null){
+		if(this.termType != dto.getTermType()){
 			this.termType = dto.getTermType();
 		}
-		if(StringUtils.isNotBlank(dto.getTermContent())){
+		if(this.termContent != dto.getTermContent()){
 			this.termContent = dto.getTermContent();
 		}
-		if(dto.getDisplayYn()!=null){
+		if(this.displayYn != dto.getDisplayYn()){
 			this.displayYn = dto.getDisplayYn();
 		}
-		if(dto.getRequiredAgreeYn()!=null){
+		if(this.requiredAgreeYn != dto.getRequiredAgreeYn()){
 			this.requiredAgreeYn = dto.getRequiredAgreeYn();
 		}
-		if(dto.getDisplayDate()!=null){
+		if(this.displayDate != dto.getDisplayDate()){
 			this.displayDate = dto.getDisplayDate();
 		}
-		if(dto.getUseYn()!=null){
+		if(this.useYn != dto.getUseYn()){
 			this.useYn = dto.getUseYn();
 		}
 		this.modDatetime = LocalDateTime.now();
 	    this.modUserNo = 1L;//수정
+	}
+	
+	public void delete() {
+		this.useYn = YnEnum.N;
 	}
 }

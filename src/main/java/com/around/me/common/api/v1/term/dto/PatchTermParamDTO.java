@@ -3,7 +3,6 @@ package com.around.me.common.api.v1.term.dto;
 import java.time.LocalDate;
 
 import com.around.me.common.core.enums.common.YnEnum;
-import com.around.me.common.core.enums.term.TermTypeEnum;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -14,7 +13,7 @@ public class PatchTermParamDTO {
     String termName;
 	
 	@ApiModelProperty(value="약관타입")
-    TermTypeEnum termType;
+    String termType;
 	
 	@ApiModelProperty(value="약관내용")
     String termContent;
@@ -28,7 +27,7 @@ public class PatchTermParamDTO {
 	@ApiModelProperty(value="전시일자")
 	LocalDate displayDate;
 	
-	@ApiModelProperty(value="사용구분")
+	@ApiModelProperty(value="사용여부")
     YnEnum useYn;
     
 }
