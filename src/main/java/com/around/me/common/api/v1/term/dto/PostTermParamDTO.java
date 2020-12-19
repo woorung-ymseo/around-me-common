@@ -7,14 +7,19 @@ import com.around.me.common.core.enums.common.YnEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 public class PostTermParamDTO {
+
+	@NotNull(message = "약관명은 필수 값 입니다.")
 	@ApiModelProperty(value="약관명")
 	String termName;
-	
+
 	@ApiModelProperty(value="약관타입")
     String termType;
-	
+
+	@NotNull(message = "약관명은 필수 값 입니다.")
 	@ApiModelProperty(value="약관내용")
     String termContent;
 	

@@ -19,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Table(name = "term")
 @Entity
@@ -58,7 +60,8 @@ public class Term {
     private YnEnum useYn;
 
     @ApiModelProperty(value="등록일시")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul") 
+	@DateTimeFormat(pattern = "yyyyMMddHHmmss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime regDatetime;
 
     @ApiModelProperty(value="수정일시")
@@ -84,7 +87,7 @@ public class Term {
 	}
 	
 	public void update(PatchTermParamDTO dto) {
-		if(this.termName != dto.getTermName()){
+		if(!StringUtils.equals(this.termName, dto.getTermName())) {
 			this.termName = dto.getTermName();
 		}
 		if(this.termType != dto.getTermType()){

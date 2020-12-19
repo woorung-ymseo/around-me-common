@@ -3,6 +3,7 @@ package com.around.me.common.api.v1.term.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.around.me.common.api.v1.code.service.CodeService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import com.around.me.common.core.domain.Term;
 import com.around.me.common.core.enums.common.YnEnum;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.Assert;
 
 @RequiredArgsConstructor
 @Service
@@ -27,15 +29,18 @@ public class TermService {
      */
     @Transactional
     public Term postTerm(PostTermParamDTO dto) {
-    	
-    	Term term = new Term();
-    	term.post(dto);
-    	
-    	Term result = termRepository.save(term);
+        Assert.notNull(dto, "잘못된 요청입니다.");
+
+        Term term = new Term();
+        term.post(dto);
+
+        Term result = termRepository.save(term);
+
+        Assert.notNull(result, "잘못된 요청입니다.");
 
         return result;
     }
-    
+
     /**
      * 약관 수정
      * @param long termNo, PatchTermParamDTO dto
@@ -43,38 +48,41 @@ public class TermService {
      */
     @Transactional
     public Term patchTerm(long termNo, PatchTermParamDTO dto) {
-    		
-    	Optional<Term> term = termRepository.findByTermNo(termNo);
-    	term.get().update(dto);
+        Assert.notNull(dto, "잘못된 요청입니다.");
+        Assert.isTrue(termNo == 0, "잘못된 요 처입니다.");
 
-    	Term result = termRepository.save(term.get());
+        Optional<Term> term = termRepository.findByTermNo(termNo);
 
-    	return result;
+        term.get().update(dto);
+
+        Term result = termRepository.save(term.get());
+
+        return result;
     }
-    
+
     /**
-     * 약관 삭제 
+     * 약관 삭제
      * @param long termNo
      * @return Term
      */
     @Transactional
     public Term deleteTerm(long termNo) {
-    	
-    	Optional<Term> term = termRepository.findByTermNo(termNo);
-    	term.get().delete();
 
-    	Term result = termRepository.save(term.get());
+        Optional<Term> term = termRepository.findByTermNo(termNo);
+        term.get().delete();
+
+        Term result = termRepository.save(term.get());
 
         return result;
     }
-    
+
     /**
      * 약관 리스트 조회
      * @return List<Term>
      */
     public List<Term> getTerms() {
-    	
-    	Optional<List<Term>> terms = termRepository.findAllByDisplayYnAndUseYn(YnEnum.Y,YnEnum.Y);
+
+        Optional<List<Term>> terms = termRepository.findAllByDisplayYnAndUseYn(YnEnum.Y,YnEnum.Y);
 
         return terms.orElse(null);
     }
@@ -85,7 +93,7 @@ public class TermService {
      * @return Term
      */
     public Term getTerm(long termNo) {
-    	
+
         Optional<Term> term = termRepository.findByTermNo(termNo);
 
         return term.orElse(null);

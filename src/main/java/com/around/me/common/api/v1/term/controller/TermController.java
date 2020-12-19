@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -40,17 +41,12 @@ public class TermController {
      */
     @ApiOperation(value = "약관 생성")
     @PostMapping(value = "/term")
-    Response<Term> postTerm(@RequestBody PostTermParamDTO dto) {
-
+    Response<Term> postTerm(@RequestBody @Valid PostTermParamDTO dto) {
         Term result = termService.postTerm(dto);
 
-        if(result==null) {
-        	return Response.badRequest(null);
-    	}else {
-    		return Response.ok(result);
-    	}
+    	return Response.ok(result);
     }
-    
+
     /**
      * 약관 수정
      * @param long termNo, PatchTermParamDTO dto
@@ -58,7 +54,9 @@ public class TermController {
      */
     @ApiOperation(value = "약관 수정")
     @PatchMapping(value = "/term/{termNo}")
-    Response<Long> patchTerm(@ApiParam(value = "약관 번호", required = true, example = "1") @PathVariable long termNo, @RequestBody PatchTermParamDTO dto) {
+    Response<Long> patchTerm(@ApiParam(value = "약관 번호", required = true, example = "1")
+                             @PathVariable long termNo
+            , @RequestBody PatchTermParamDTO dto) {
     	
     	Term result = termService.patchTerm(termNo, dto);
     	if(result==null) {

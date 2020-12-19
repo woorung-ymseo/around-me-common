@@ -3,6 +3,7 @@ package com.around.me.common.api.v1.code.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.around.me.common.core.dto.Response;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -76,7 +77,7 @@ public class CodeService {
      */
     @Transactional
     public Groupcode deleteGroupcode(long groupcodeNo) {
-    	
+
     	Optional<Groupcode> groupcode = groupcodeRepository.findByCommonGroupCodeNo(groupcodeNo);
     	List<Code> codes = groupcode.get().delete();
 
