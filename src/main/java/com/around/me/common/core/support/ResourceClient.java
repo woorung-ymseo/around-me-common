@@ -7,7 +7,7 @@ import com.around.me.common.core.utils.HttpServletUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -27,58 +27,63 @@ import java.util.Map;
 public class ResourceClient {
 
     private final RestTemplate restTemplate;
+    private final ServiceDomain serviceDomain;
+
+    public String getServiceDomain(String serviceName) {
+        return serviceDomain.getDomain(serviceName);
+    }
 
     /**
      * RestTemplate get
      *
-     * @param uri
+     * @param serviceName
      * @param parameter
      * @param httpHeaders
      * @param clazz
      * @param <T>
      * @return
      */
-    public <T> Response<T> getForResponse(String uri, Object parameter, HttpHeaders httpHeaders, Class<T> clazz) {
-        return this.excuete(uri, HttpMethod.GET, parameter, httpHeaders, clazz);
+    public <T> Response<T> getForResponse(String serviceName, Object parameter, HttpHeaders httpHeaders, Class<T> clazz) {
+        return this.excuete(serviceName, HttpMethod.GET, parameter, httpHeaders, clazz);
     }
 
     /**
      * RestTemplate get
      *
-     * @param uri
+     * @param serviceName
      * @param parameter
      * @param clazz
      * @param <T>
      * @return
      */
-    public <T> Response<T> getForResponse(String uri, Object parameter, Class<T> clazz) {
-        return this.getForResponse(uri, parameter, null, clazz);
+    public <T> Response<T> getForResponse(String serviceName, Object parameter, Class<T> clazz) {
+        return this.getForResponse(serviceName, parameter, null, clazz);
     }
 
     /**
      * RestTemplate get
      *
-     * @param uri
+     * @param serviceName
      * @param httpHeaders
      * @param clazz
      * @param <T>
      * @return
      */
-    public <T> Response<T> getForResponse(String uri, HttpHeaders httpHeaders, Class<T> clazz) {
-        return this.excuete(uri, HttpMethod.GET, null, httpHeaders, clazz);
+    public <T> Response<T> getForResponse(String serviceName, HttpHeaders httpHeaders, Class<T> clazz) {
+        return this.excuete(serviceName, HttpMethod.GET, null, httpHeaders, clazz);
     }
 
 
     /**
      * RestTemplate get
      *
-     * @param uri
+     * @param serviceName
      * @param clazz
      * @param <T>
      * @return
      */
-    public <T> Response<T> getForResponse(String uri, Class<T> clazz) {
-        return this.excuete(uri, HttpMethod.GET, null, null, clazz);
+    public <T> Response<T> getForResponse(String serviceName, Class<T> clazz) {
+        return this.excuete(serviceName, HttpMethod.GET, null, null, clazz);
     }
 
 
@@ -86,59 +91,59 @@ public class ResourceClient {
     /**
      * RestTemplate post
      *
-     * @param uri
+     * @param serviceName
      * @param parameter
      * @param httpHeaders
      * @param clazz
      * @param <T>
      * @return
      */
-    public <T> Response<T> postForResponse(String uri, Object parameter, HttpHeaders httpHeaders, Class<T> clazz) {
-        return this.excuete(uri, HttpMethod.POST, parameter, httpHeaders, clazz);
+    public <T> Response<T> postForResponse(String serviceName, Object parameter, HttpHeaders httpHeaders, Class<T> clazz) {
+        return this.excuete(serviceName, HttpMethod.POST, parameter, httpHeaders, clazz);
     }
 
     /**
      * RestTemplate post
      *
-     * @param uri
+     * @param serviceName
      * @param httpHeaders
      * @param clazz
      * @param <T>
      * @return
      */
-    public <T> Response<T> postForResponse(String uri, HttpHeaders httpHeaders, Class<T> clazz) {
-        return this.excuete(uri, HttpMethod.POST, null, httpHeaders, clazz);
+    public <T> Response<T> postForResponse(String serviceName, HttpHeaders httpHeaders, Class<T> clazz) {
+        return this.excuete(serviceName, HttpMethod.POST, null, httpHeaders, clazz);
     }
 
     /**
      * RestTemplate post
      *
-     * @param uri
+     * @param serviceName
      * @param parameter
      * @param clazz
      * @param <T>
      * @return
      */
-    public <T> Response<T> postForResponse(String uri, Object parameter, Class<T> clazz) {
-        return this.excuete(uri, HttpMethod.POST, parameter, null, clazz);
+    public <T> Response<T> postForResponse(String serviceName, Object parameter, Class<T> clazz) {
+        return this.excuete(serviceName, HttpMethod.POST, parameter, null, clazz);
     }
 
     /**
      * RestTemplate post
      *
-     * @param uri
+     * @param serviceName
      * @param clazz
      * @param <T>
      * @return
      */
-    public <T> Response<T> postForResponse(String uri, Class<T> clazz) {
-        return this.excuete(uri, HttpMethod.POST, null, null, clazz);
+    public <T> Response<T> postForResponse(String serviceName, Class<T> clazz) {
+        return this.excuete(serviceName, HttpMethod.POST, null, null, clazz);
     }
 
     /**
      * RestTemplate Excuete
      *
-     * @param uri
+     * @param serviceName
      * @param method
      * @param parameter
      * @param httpHeaders
@@ -147,8 +152,10 @@ public class ResourceClient {
      * @return
      */
     @SneakyThrows
-    private <T> Response<T> excuete(String uri, HttpMethod method, Object parameter, HttpHeaders httpHeaders, Class<T> clazz) {
+    private <T> Response<T> excuete(String serviceName, HttpMethod method, Object parameter, HttpHeaders httpHeaders, Class<T> clazz) {
         ObjectMapper objectMapper = new ObjectMapper();
+
+        String uri = this.getServiceDomain(serviceName);
 
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>();
 
@@ -162,18 +169,6 @@ public class ResourceClient {
                 uri = uri + this.urlEncodeUTF8(map);
             }
         }
-
-        ResponseEntity<Response> response = null;
-
-//        HttpEntity request = this.getHttpEntity(paramMap, httpHeaders);
-/*
-        if (StringUtils.equals(method.toString(), HttpMethod.GET.toString())) {
-            response = restTemplate.getForEntity(uri, request, Response.class);
-        } else if (StringUtils.equals(method.toString(), HttpMethod.POST.toString())) {
-            response = restTemplate.postForEntity(uri, request, Response.class);
-        }*/
-
-
 
         HttpEntity httpEntity = this.getHttpEntity(paramMap, httpHeaders);
 
@@ -197,7 +192,8 @@ public class ResourceClient {
      */
     private HttpHeaders getHeader() {
         return HttpHeaderBuilder.builder()
-                .authorization(ResponseContextHolder.xAuthToken())
+                .xAuthToken(ResponseContextHolder.xAuthToken())
+                .xRefreshToken(ResponseContextHolder.xRefreshToken())
                 .build();
     }
 
