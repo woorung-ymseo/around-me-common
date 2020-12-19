@@ -13,7 +13,7 @@ package com.around.me.common.core.enums.response;
  */
 public enum ResponseCodeEnum {
     OK("000000", "성공"),
-    SERVER_ERROR("110100", " 서버장애입니다."),
+    SERVER_ERROR("101100", " 서버장애입니다."),
     BAD_REQUEST("101200", " 잘못된 요청입니다."),
     TIME_OUT("101300", "요청시간초과"),
     NONE_AUTH("101400", "권한이 없습니다."),
