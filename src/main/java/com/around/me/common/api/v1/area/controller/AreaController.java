@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.around.me.common.api.v1.area.service.AreaService;
 import com.around.me.common.core.annoitation.version.RestMappingV1;
 import com.around.me.common.core.domain.Area;
-import com.around.me.common.core.domain.Term;
 import com.around.me.common.core.dto.Response;
 
 import io.swagger.annotations.Api;

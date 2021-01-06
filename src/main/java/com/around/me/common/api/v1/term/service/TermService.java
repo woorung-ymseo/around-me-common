@@ -49,7 +49,7 @@ public class TermService {
     @Transactional
     public Term patchTerm(long termNo, PatchTermParamDTO dto) {
         Assert.notNull(dto, "잘못된 요청입니다.");
-        Assert.isTrue(termNo == 0, "잘못된 요 처입니다.");
+        Assert.isTrue(termNo == 0, "잘못된 요청입니다.");
 
         Optional<Term> term = termRepository.findByTermNo(termNo);
 
@@ -67,8 +67,10 @@ public class TermService {
      */
     @Transactional
     public Term deleteTerm(long termNo) {
-
+    	Assert.isTrue(termNo == 0, "잘못된 요청입니다.");
+    	
         Optional<Term> term = termRepository.findByTermNo(termNo);
+        
         term.get().delete();
 
         Term result = termRepository.save(term.get());
@@ -93,7 +95,8 @@ public class TermService {
      * @return Term
      */
     public Term getTerm(long termNo) {
-
+    	Assert.isTrue(termNo == 0, "잘못된 요청입니다.");
+    	
         Optional<Term> term = termRepository.findByTermNo(termNo);
 
         return term.orElse(null);

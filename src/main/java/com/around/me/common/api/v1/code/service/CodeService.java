@@ -3,9 +3,9 @@ package com.around.me.common.api.v1.code.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.around.me.common.core.dto.Response;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.around.me.common.api.v1.code.repository.CodeRepository;
 import com.around.me.common.api.v1.code.repository.GroupcodeRepository;
@@ -45,11 +45,14 @@ public class CodeService {
      */
     @Transactional
     public Groupcode postGroupcode(PostGroupcodeParamDTO dto) {
-    	
+    	Assert.notNull(dto, "잘못된 요청입니다.");
+    	 
     	Groupcode groupcode = new Groupcode();
     	groupcode.post(dto);
     	
     	Groupcode result = groupcodeRepository.save(groupcode);
+    	
+    	Assert.notNull(result, "잘못된 요청입니다.");
 
         return result;
     }
@@ -61,7 +64,9 @@ public class CodeService {
      */
     @Transactional
     public Groupcode patchGroupcode(long groupcodeNo, PatchGroupcodeParamDTO dto) {
-    		
+    	Assert.notNull(dto, "잘못된 요청입니다.");
+        Assert.isTrue(groupcodeNo == 0, "잘못된 요청입니다.");
+        
     	Optional<Groupcode> groupcode = groupcodeRepository.findByCommonGroupCodeNo(groupcodeNo);
     	groupcode.get().update(dto);
 
@@ -77,6 +82,7 @@ public class CodeService {
      */
     @Transactional
     public Groupcode deleteGroupcode(long groupcodeNo) {
+    	Assert.isTrue(groupcodeNo == 0, "잘못된 요청입니다.");
 
     	Optional<Groupcode> groupcode = groupcodeRepository.findByCommonGroupCodeNo(groupcodeNo);
     	List<Code> codes = groupcode.get().delete();
@@ -107,6 +113,7 @@ public class CodeService {
      * @return Code
      */
     public Code getCode(long codeNo) {
+    	Assert.isTrue(codeNo == 0, "잘못된 요청입니다.");
     	
         Optional<Code> code = codeRepository.findByUseYnAndCommonCodeNo(YnEnum.Y,codeNo);
 
@@ -120,12 +127,15 @@ public class CodeService {
      */
     @Transactional
     public Code postCode(PostCodeParamDTO dto) {
+    	Assert.notNull(dto, "잘못된 요청입니다.");
     	
     	Code code = new Code();
     	code.post(dto);
     	
     	Code result = codeRepository.save(code);
 
+    	Assert.notNull(result, "잘못된 요청입니다.");
+    	
         return result;
     }
     
@@ -136,7 +146,9 @@ public class CodeService {
      */
     @Transactional
     public Code patchCode(long codeNo, PatchCodeParamDTO dto) {
-    		
+    	Assert.notNull(dto, "잘못된 요청입니다.");
+        Assert.isTrue(codeNo == 0, "잘못된 요청입니다.");
+        
     	Optional<Code> code = codeRepository.findByCommonCodeNo(codeNo);
     	code.get().update(dto);
 
@@ -152,6 +164,7 @@ public class CodeService {
      */
     @Transactional
     public Code deleteCode(long codeNo) {
+    	Assert.isTrue(codeNo == 0, "잘못된 요청입니다.");
     	
     	Optional<Code> code = codeRepository.findByCommonCodeNo(codeNo);
     	code.get().delete();
