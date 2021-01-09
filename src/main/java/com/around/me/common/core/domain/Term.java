@@ -90,10 +90,10 @@ public class Term {
 		if(!StringUtils.equals(this.termName, dto.getTermName())) {
 			this.termName = dto.getTermName();
 		}
-		if(this.termType != dto.getTermType()){
+		if(!StringUtils.equals(this.termType, dto.getTermType())){
 			this.termType = dto.getTermType();
 		}
-		if(this.termContent != dto.getTermContent()){
+		if(!StringUtils.equals(this.termContent, dto.getTermContent())){
 			this.termContent = dto.getTermContent();
 		}
 		if(this.displayYn != dto.getDisplayYn()){

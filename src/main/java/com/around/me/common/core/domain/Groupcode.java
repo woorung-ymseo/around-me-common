@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -13,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.around.me.common.api.v1.code.dto.PatchGroupcodeParamDTO;
 import com.around.me.common.api.v1.code.dto.PostGroupcodeParamDTO;
@@ -76,10 +77,10 @@ public class Groupcode {
 	}
 	
 	public void update(PatchGroupcodeParamDTO dto) {
-		if(this.commonGroupCode != dto.getCommonGroupCode()){
+		if(!StringUtils.equals(this.commonGroupCode, dto.getCommonGroupCode())){
 			this.commonGroupCode = dto.getCommonGroupCode();
 		}
-		if(this.commonGroupName != dto.getCommonGroupName()){
+		if(!StringUtils.equals(this.commonGroupName, dto.getCommonGroupName())){
 			this.commonGroupName = dto.getCommonGroupName();
 		}
 		if(this.useYn != dto.getUseYn()){
@@ -88,7 +89,7 @@ public class Groupcode {
 		if(this.orderNo != dto.getOrderNo()){
 			this.orderNo = dto.getOrderNo();
 		}
-		if(this.description != dto.getDescription()){
+		if(!StringUtils.equals(this.description, dto.getDescription())){
 			this.description = dto.getDescription();
 		}
 		this.modDatetime = LocalDateTime.now();

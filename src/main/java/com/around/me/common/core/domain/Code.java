@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.around.me.common.api.v1.code.dto.PatchCodeParamDTO;
 import com.around.me.common.api.v1.code.dto.PostCodeParamDTO;
 import com.around.me.common.core.enums.common.YnEnum;
@@ -94,10 +96,10 @@ public class Code {
 		//if(this.commonGroupCode != dto.getCommonGroupCode()) {
 		//	this.commonGroupCode = dto.getCommonGroupCode();
 		//}
-		if(this.commonCode != dto.getCommonCode()) {
+		if(!StringUtils.equals(this.commonCode, dto.getCommonCode())) {
 			this.commonCode = dto.getCommonCode();
 		}
-		if(this.commonCodeName != dto.getCommonCodeName()){
+		if(!StringUtils.equals(this.commonCodeName, dto.getCommonCodeName())){
 			this.commonCodeName = dto.getCommonCodeName();
 		}
 		if(this.useYn != dto.getUseYn()) {
@@ -109,16 +111,16 @@ public class Code {
 		if(this.orderNo != dto.getOrderNo()){
 			this.orderNo = dto.getOrderNo();
 		}
-	    if(this.description != dto.getDescription()){
+	    if(!StringUtils.equals(this.description, dto.getDescription())){
 			this.description = dto.getDescription();
 		}
-	    if(this.filter1 != dto.getFilter1()){
+	    if(!StringUtils.equals(this.filter1, dto.getFilter1())){
 			this.filter1 = dto.getFilter1();
 		}
-	    if(this.filter2 != dto.getFilter2()){
+	    if(!StringUtils.equals(this.filter2, dto.getFilter2())){
 			this.filter2 = dto.getFilter2();
 		}
-	    if(this.filter3 != dto.getFilter3()){
+	    if(!StringUtils.equals(this.filter3, dto.getFilter3())){
 			this.filter3 = dto.getFilter3();
 		}
 		this.modDatetime = LocalDateTime.now();
