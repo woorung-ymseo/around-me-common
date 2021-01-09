@@ -2,6 +2,8 @@ package com.around.me.common.api.v1.code.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -57,7 +59,7 @@ public class CodeController {
      */
     @ApiOperation(value = "공통그룹코드 생성")
     @PostMapping(value = "/groupcode")
-	Response<Groupcode> postGroupcode(@RequestBody PostGroupcodeParamDTO dto) {
+	Response<Groupcode> postGroupcode(@RequestBody @Valid PostGroupcodeParamDTO dto) {
 
         Groupcode result = codeService.postGroupcode(dto);
 
@@ -138,7 +140,7 @@ public class CodeController {
      */
     @ApiOperation(value = "공통코드 생성")
     @PostMapping(value = "/code")
-	Response<Code> postCode(@RequestBody PostCodeParamDTO dto) {
+	Response<Code> postCode(@RequestBody @Valid PostCodeParamDTO dto) {
 
         Code result = codeService.postCode(dto);
 
